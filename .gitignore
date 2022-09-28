@@ -1,0 +1,5 @@
+.idea/
+venv/
+ESG/__pycache__
+home/__pycache__
+company/__pycache__

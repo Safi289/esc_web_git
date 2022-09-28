@@ -1,0 +1,4 @@
+7/9/22
+
+ALTER TABLE `scraped_data_tbl` ADD `reading_count` INT(255) NOT NULL DEFAULT '0' AFTER `article_body`;
+ALTER TABLE `scraped_data_tbl` CHANGE `reading_count` `reading_count` INT UNSIGNED NOT NULL DEFAULT '0';

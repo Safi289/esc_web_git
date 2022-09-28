@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    | Home
+{% endblock %}
+
+{% block page_header %}
+    <header class="bg-dark py-3">
+        <div class="container">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">ESG</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Environmental, social, and corporate governance</p>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    Company Information
+                </div>
+                <div class="card-body">
+                    <form class="d-flex mb-5" method="GET" action="{% url 'home:index' %}">
+                        <input name="key" style="width: 50%" value="{{ key }}" class="form-control me-2" type="search"
+                               placeholder="Search"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-border">
+                            <tbody>
+                            <tr>
+                                <th>#SL</th>
+                                <th>Company name</th>
+                                <th>Source</th>
+                                <th width="20%">Link</th>
+                                <th>Date</th>
+                                <th>Search term</th>
+                                <th>Number of Reading</th>
+                                <th>Action</th>
+                            </tr>
+                            </tbody>
+                            <tbody>
+                            {% if companies %}
+                                {% for company in companies.object_list %}
+                                    <tr>
+                                        <td> {{ forloop.counter0|add:companies.start_index}}</td>
+                                        <td>{{ company.company_name }}</td>
+                                        <td>
+                                            <a href="http://{{ company.source }}" target="_blank">{{ company.source }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ company.link }}" target="_blank">{{ company.link }}</a>
+                                        </td>
+                                        <td>{{ company.date|date:"M d, Y" }}</td>
+                                        <td>{{ company.search_term }}</td>
+                                        <td>{{ company.reading_count }}</td>
+                                        <td>
+                                            <a href="{% url 'home:company_info' company_id=company.id %}" class="btn btn-info btn-sm">View</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if companies.has_next or companies.has_previous %}
+                <div class="row mt-5">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                {% if companies.has_previous %}
+                                    <li class="page-item">
+                                        {% if key %}
+                                            <a class="page-link"
+                                               href="?page={{ companies.previous_page_number }}&key={{ key }}">Previous</a>
+                                        {% else %}
+                                            <a class="page-link" href="?page={{ companies.previous_page_number }}">Previous</a>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled"><a class="page-link disabled">Previous</a></li>
+                                {% endif %}
+
+                                <li class="page-item"><a class="page-link">{{ companies.number }}</a></li>
+
+                                {% if companies.has_next %}
+                                    <li class="page-item">
+                                        {% if key %}
+                                            <a class="page-link"
+                                               href="?page={{ companies.next_page_number }}&key={{ key }}">Next</a>
+                                        {% else %}
+                                            <a class="page-link" href="?page={{ companies.next_page_number }}">Next</a>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled"><a class="page-link disabled">Next</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+{% endblock %}

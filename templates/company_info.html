@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    | Details
+{% endblock %}
+
+{% block page_header %}
+    <header class="bg-dark py-3">
+        <div class="container">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">ESG - Details</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Environmental, social, and corporate governance</p>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    Details
+
+                    <a href="{% url 'home:index' %}" class="btn btn-sm btn-info" style="float: right">Back to Home</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-border">
+                            <tr>
+                                <th width="20%">Company name</th>
+                                <th>:</th>
+                                <td>{{ company_info.company_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Source</th>
+                                <th>:</th>
+                                <td><a href="http://{{ company_info.source }}" target="_blank">{{ company_info.source }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Link</th>
+                                <th>:</th>
+                                <td><a href="{{ company_info.link }}" target="_blank">{{ company_info.link }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>:</th>
+                                <td>{{ company_info.date|date:"M d, Y" }}</td>
+                            </tr>
+<!--                            <tr>-->
+<!--                                <th>Filepath</th>-->
+<!--                                <th>:</th>-->
+<!--                                <td>{{ company_info.filepath }}</td>-->
+<!--                            </tr>-->
+                            <tr>
+                                <th>Filename</th>
+                                <th>:</th>
+                                <td>{{ company_info.filename }}</td>
+                            </tr>
+                            <tr>
+                                <th>Search term</th>
+                                <th>:</th>
+                                <td>{{ company_info.search_term }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h5>Article body:</h5>
+                        {{ company_info.article_body|safe }}
+                    </div>
+
+                </div>
+
+            </div>
+            {% if company_info.reading_count > 1  %}
+                    <div>
+                        <p style="color:blue">reading completed</p>
+                    </div>
+                 {% endif %}
+        </div>
+    </section>
+{% endblock %}
